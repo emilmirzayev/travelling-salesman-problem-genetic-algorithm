@@ -7,7 +7,7 @@ from operator import itemgetter
 from tsp import *
 
 
-number_of_cities = 20
+number_of_cities = 50
 for _ in range(number_of_cities):
     city = dict()
     a = City()
@@ -48,6 +48,8 @@ def pairwise(iterable:list):
     a, b = itertools.tee(iterable)
     next(b, None)
     return zip(a, b)
+
+
 
 
 def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
@@ -103,35 +105,29 @@ def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
         # Making crossover and mutation
         next_population_temp = copy.copy(initial_population_list)
         #print(next_population_temp)
-        for index, _ in enumerate(next_population_temp):
-            next_population_temp[index] = populationGenerator.mutate(next_population_temp[index])
         
-        initial_population_list = next_population_temp
-        if generation % 50 == 0:
+        # Generating the next population
+        for _ in range(len(next_population_temp)):
+            _parent1, _parent2 = random.sample(next_population_temp, 2)
+            childRoute = populationGenerator.crossover(_parent1, _parent2)
+            
+            next_population_list.append(childRoute)
+        
+        # Mutating the population
+        for index, _ in enumerate(next_population_list):
+            next_population_list[index] = populationGenerator.mutate(next_population_list[index])
+        
+        initial_population_list = next_population_list
+        if generation % 100 == 0:
             # after every 50 generations print the score
             print(bestDistance)
             print(bestRoute)
 
-    
-        
-    #     next_population_temp = random.choices(initial_population_list, distances_dict.values(), k = 10)
-
-    #     # making crossover and mutation
-    #     for _ in range(50):
-    #         parentRoute1 = random.choice(next_population_temp)
-    #         parentRoute2 = random.choice(next_population_temp)
-    #         childRoute = populationGenerator.crossover(parentRoute1, parentRoute2)
-    #         # childRoute = populationGenerator.mutate(childRoute)
-    #         next_population_list.append(childRoute)
-        
-
-    #     initial_population_list = next_population_list
-    # print(bestDistance, best_route)
 
 
 
 
-geneticAlgorithm(numberOfGenerations = 1000, populationSize = 100)
+geneticAlgorithm(numberOfGenerations = 10000, populationSize = 100)
 
 
 

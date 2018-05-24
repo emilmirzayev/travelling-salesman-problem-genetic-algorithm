@@ -6,7 +6,7 @@ import copy
 list_of_all_cities = list()
 distances = list()
 city_id_list = list()
-mutationProbability = 0.7 # high for test purposes
+mutationProbability = 0.3 # high for test purposes
 
 class City:
     _ids = itertools.count(1)
@@ -106,10 +106,10 @@ class Population:
         """
         Generates a new route based on two parent routes via crossover. Child will have 50-50 genes from both parents
         """
-        _divisionIndex = round(len(parentRoute1)/2)
-        _childPart1 = parentRoute1[:_divisionIndex]
-        _childPart2 = parentRoute2[_divisionIndex:]
-        childRoute = _childPart1.extend(_childPart2)
+        _divisionIndex = len(parentRoute1)//2
+        childRoute = parentRoute1[:_divisionIndex]
+        _childPart2 = [x for x in parentRoute2 if x not in childRoute]
+        childRoute.extend(_childPart2)
         return childRoute
 
     def mutate(self, route:list):
