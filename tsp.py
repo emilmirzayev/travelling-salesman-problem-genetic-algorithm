@@ -107,7 +107,7 @@ class Population:
         Generates a new route based on two parent routes via crossover. Child will have 50-50 genes from both parents
         """
         _divisionIndex = len(parentRoute1)//2
-        childRoute = parentRoute1[:_divisionIndex]
+        childRoute = random.sample(parentRoute1, _divisionIndex)
         _childPart2 = [x for x in parentRoute2 if x not in childRoute]
         childRoute.extend(_childPart2)
         return childRoute

@@ -7,7 +7,7 @@ from operator import itemgetter
 from tsp import *
 
 
-number_of_cities = 50
+number_of_cities = 20
 for _ in range(number_of_cities):
     city = dict()
     a = City()
@@ -58,7 +58,7 @@ def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
     populationGenerator = Population()
     for i in range(populationSize):
         initial_population_list.append(populationGenerator.generate(city_id_list))
-    #print(initial_population_list, "this is initial population")
+    # print(initial_population_list, "this is initial population")
     bestDistance = math.inf
     bestRoute = None
 
@@ -67,11 +67,13 @@ def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
 
 
     for generation in range(numberOfGenerations):
+
+        #print(initial_population_list)
         
         next_population_temp = list()
         next_population_list = list()
         populationGenerator = Population()
-        calculator = Calculators()
+        
         distances_dict = dict() # this dict will keep the index of route with its distance
         
 
@@ -99,15 +101,17 @@ def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
             bestDistance = best_distance_this_generation
             bestRoute = initial_population_list[index_best_distance_this_generation]
         
+
         
         
+        #print(distances_dict)
         # Generating the temporary list of routes which next generation will be based on
         # Making crossover and mutation
-        next_population_temp = copy.copy(initial_population_list)
+        next_population_temp = random.choices(initial_population_list, distances_dict.values(), k = 20)
         #print(next_population_temp)
         
         # Generating the next population
-        for _ in range(len(next_population_temp)):
+        for _ in range(len(initial_population_list)):
             _parent1, _parent2 = random.sample(next_population_temp, 2)
             childRoute = populationGenerator.crossover(_parent1, _parent2)
             
