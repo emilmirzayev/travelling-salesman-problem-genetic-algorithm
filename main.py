@@ -108,6 +108,7 @@ def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
         
         initial_population_list = next_population_temp
         if generation % 50 == 0:
+            # after every 50 generations print the score
             print(bestDistance)
             print(bestRoute)
 
