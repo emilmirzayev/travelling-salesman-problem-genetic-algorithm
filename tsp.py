@@ -4,16 +4,9 @@ import itertools
 import copy
 
 list_of_all_cities = list()
-
-city_id_list = list() # for generating the routes from city IDs
-
-mutationProbability = 0.03 # mutation probability is 3%
-
-distances = list() # global variable for keeping all distance related data
-
-best_route = None
-best_distance = None
-
+distances = list()
+city_id_list = list()
+mutationProbability = 0.7
 
 class City:
     _ids = itertools.count(1)
