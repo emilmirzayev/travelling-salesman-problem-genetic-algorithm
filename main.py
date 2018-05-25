@@ -7,7 +7,11 @@ from operator import itemgetter
 from tsp import *
 
 
-number_of_cities = 20
+number_of_cities = int(input("Please, enter the number of cities to generate: "))
+number_of_generations = int(input("Please, enter the number of generations: "))
+population_size = int(input("Please, enter the population size: "))
+
+
 for _ in range(number_of_cities):
     city = dict()
     a = City()
@@ -28,16 +32,6 @@ calc.calculateRoute(list_of_all_cities)
 for city in list_of_all_cities:
     city_id_list.append(city["id"])
 
-
-
-#print(list_of_all_cities)
-
-
-
-# populationGenerator = Population()
-
-# a = populationGenerator.generate(list_of_all_cities)
-# print(a)
 
 def pairwise(iterable:list):
     """
@@ -95,8 +89,9 @@ def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
         ordered_dict = OrderedDict(sorted(distances_dict.items(), key = itemgetter(1)))
         best_distance_this_generation = list(ordered_dict.items())[0][1]
         index_best_distance_this_generation = list(ordered_dict.items())[0][0]
-        #print(index_best_distance_this_generation)
-        #print(best_distance_this_generation)
+        
+        
+
         if best_distance_this_generation < bestDistance:
             bestDistance = best_distance_this_generation
             bestRoute = initial_population_list[index_best_distance_this_generation]
@@ -104,11 +99,11 @@ def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
 
         
         
-        #print(distances_dict)
+        
         # Generating the temporary list of routes which next generation will be based on
         # Making crossover and mutation
         next_population_temp = random.choices(initial_population_list, distances_dict.values(), k = 20)
-        #print(next_population_temp)
+        
         
         # Generating the next population
         for _ in range(len(initial_population_list)):
@@ -122,17 +117,17 @@ def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
             next_population_list[index] = populationGenerator.mutate(next_population_list[index])
         
         initial_population_list = next_population_list
-        if generation % 100 == 0:
+        if generation % 50 == 0:
             # after every 50 generations print the score
-            print(bestDistance)
-            print(bestRoute)
+            print("Best distance for the generation {} is {}".format(generation ,bestDistance))
+            print("Best route so far {}".format(bestRoute))
         
 
 
 
 
-
-geneticAlgorithm(numberOfGenerations = 10000, populationSize = 100)
+if __name__ == "__main__":
+    geneticAlgorithm(numberOfGenerations = number_of_generations, populationSize = population_size)
 
 
 
