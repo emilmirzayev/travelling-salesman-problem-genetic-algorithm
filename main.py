@@ -105,12 +105,19 @@ def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
         next_population_temp = random.choices(initial_population_list, distances_dict.values(), k = 20)
         
         
-        # Generating the next population
-        for _ in range(len(initial_population_list)):
+        # Generating the half of the next population from previous population's crossover
+        for _ in range(len(initial_population_list)//2):
             _parent1, _parent2 = random.sample(next_population_temp, 2)
             childRoute = populationGenerator.crossover(_parent1, _parent2)
-            
             next_population_list.append(childRoute)
+        
+        # generating the rest half of the population randomly
+        for _ in range(len(initial_population_list)//2):
+            next_population_list.append(populationGenerator.generate(city_id_list))
+        
+        # checking the length of the populations for match
+        assert len(next_population_list) == len(initial_population_list), "The length of the populations do not match!"
+        
         
         # Mutating the population
         for index, _ in enumerate(next_population_list):

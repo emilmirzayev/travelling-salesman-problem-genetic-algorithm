@@ -6,7 +6,7 @@ import copy
 list_of_all_cities = list()
 distances = list()
 city_id_list = list()
-mutationProbability = 0.3 # high for test purposes
+mutationProbability = 0.5 # high for test purposes
 
 class City:
     _ids = itertools.count(1)
