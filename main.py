@@ -20,15 +20,10 @@ for _ in range(number_of_cities):
     city["y"] = a.y
     list_of_all_cities.append(city)
 # calculate the distances of between every city and saves it into global distances variable
-
-
 calc = Calculators()
 calc.calculateRoute(list_of_all_cities)
 
-#print(distances)
-
-
-
+# also, we generate city id object, which will be used to generate random routes
 for city in list_of_all_cities:
     city_id_list.append(city["id"])
 
@@ -48,11 +43,11 @@ def pairwise(iterable:list):
 
 def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
     
-    initial_population_list = list()  # defining intial population before the first loop
+    # defining intial population before the first loop
+    initial_population_list = list()
     populationGenerator = Population()
-    for i in range(populationSize):
+    for _ in range(populationSize):
         initial_population_list.append(populationGenerator.generate(city_id_list))
-    # print(initial_population_list, "this is initial population")
     bestDistance = math.inf
     bestRoute = None
 
@@ -62,8 +57,6 @@ def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
 
     for generation in range(numberOfGenerations):
 
-        #print(initial_population_list)
-        
         next_population_temp = list()
         next_population_list = list()
         populationGenerator = Population()
@@ -75,11 +68,9 @@ def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
         
         # calculating the distances of initial population
         for populationIndex, population in enumerate(initial_population_list):
-            #print(population)
             route_dist = 0
             try:
                 for pair in pairwise(population):
-                    #print(pair)
                     start, destination = pair
                     route_dist += distances[start-1][start][destination]
                     distances_dict[populationIndex] = route_dist
@@ -124,8 +115,8 @@ def geneticAlgorithm(numberOfGenerations:int, populationSize:int):
             next_population_list[index] = populationGenerator.mutate(next_population_list[index])
         
         initial_population_list = next_population_list
-        if generation % 50 == 0:
-            # after every 50 generations print the score
+        if generation % 20 == 0:
+            # after every 20 generations print the score
             print("Best distance for the generation {} is {}".format(generation ,bestDistance))
             print("Best route so far {}".format(bestRoute))
         
